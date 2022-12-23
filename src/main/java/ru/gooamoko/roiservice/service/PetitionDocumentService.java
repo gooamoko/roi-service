@@ -31,6 +31,10 @@ public class PetitionDocumentService {
         }
     }
 
+    public void deleteById(String id) {
+        documentRepository.deleteById(id);
+    }
+
     public void clear() {
         documentRepository.deleteAll();
     }

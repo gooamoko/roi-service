@@ -27,6 +27,12 @@ public class PetitionController {
         return ResponseEntity.ok(petitionDocumentService.findPetitions(searchText));
     }
 
+    @GetMapping(value = "delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteById(@RequestParam("id") String id) {
+        petitionDocumentService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping(value = "clear")
     public ResponseEntity<String> clear() {
         petitionDocumentService.clear();

@@ -1,5 +1,7 @@
 package ru.gooamoko.roiservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,7 @@ import ru.gooamoko.roiservice.service.PetitionDocumentService;
 @RestController
 @RequestMapping("petitions")
 public class PetitionController {
+    private static final Logger log = LoggerFactory.getLogger(PetitionController.class);
     private final PetitionDocumentService petitionDocumentService;
 
     public PetitionController(PetitionDocumentService petitionDocumentService) {
@@ -18,8 +21,13 @@ public class PetitionController {
 
     @PostMapping(value = "save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> save(@RequestBody PetitionDocumentDataModel dataModel) {
-        petitionDocumentService.savePetition(dataModel.getData());
-        return ResponseEntity.ok().build();
+        try {
+            petitionDocumentService.savePetition(dataModel.getData());
+            return ResponseEntity.ok("OK");
+        } catch (Exception e) {
+            log.error("Ошибка сохранения инициативы.", e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping(value = "find", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,9 +36,14 @@ public class PetitionController {
     }
 
     @GetMapping(value = "delete", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteById(@RequestParam("id") String id) {
-        petitionDocumentService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> deleteById(@RequestParam("id") String id) {
+        try {
+            petitionDocumentService.deleteById(id);
+            return ResponseEntity.ok("OK");
+        } catch (Exception e) {
+            log.error("Ошибка удаления инициативы.", e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping(value = "clear")

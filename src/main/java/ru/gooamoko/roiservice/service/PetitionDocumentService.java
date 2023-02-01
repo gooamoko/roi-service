@@ -7,9 +7,11 @@ import ru.gooamoko.roiservice.es.document.PetitionDocument;
 import ru.gooamoko.roiservice.model.*;
 import ru.gooamoko.roiservice.repository.PetitionDocumentRepository;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PetitionDocumentService {
@@ -22,6 +24,10 @@ public class PetitionDocumentService {
     }
 
 
+    public Optional<PetitionDocument> findById(Long id) {
+        return documentRepository.findById(String.valueOf(id));
+    }
+
     public void savePetition(PetitionDocumentModel petitionDocumentModel) {
         try {
             PetitionDocument document = convertToDocument(petitionDocumentModel);
@@ -29,6 +35,10 @@ public class PetitionDocumentService {
         } catch (Exception e) {
             log.error("Petition save error.", e);
         }
+    }
+
+    public void save(PetitionDocument document) {
+        documentRepository.save(document);
     }
 
     public void deleteById(String id) {
@@ -91,5 +101,9 @@ public class PetitionDocumentService {
             document.setCategories(categoryNames);
         }
         return document;
+    }
+
+    public void deleteOld(LocalDate date) {
+        // TODO: 01.02.2023 Реализовать удаление старых записей
     }
 }

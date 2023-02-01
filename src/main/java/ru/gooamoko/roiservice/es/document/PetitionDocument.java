@@ -50,6 +50,9 @@ public class PetitionDocument {
     @Field(type = FieldType.Date)
     private LocalDate createDate = LocalDate.now();
 
+    @Field(type = FieldType.Date)
+    private LocalDate updateDate = LocalDate.now();
+
     public String getId() {
         return id;
     }
@@ -160,5 +163,13 @@ public class PetitionDocument {
 
     public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
+    }
+
+    public LocalDate getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDate updateDate) {
+        this.updateDate = updateDate;
     }
 }

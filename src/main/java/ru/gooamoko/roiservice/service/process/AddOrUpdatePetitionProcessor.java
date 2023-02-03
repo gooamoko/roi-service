@@ -39,7 +39,7 @@ public class AddOrUpdatePetitionProcessor implements Callable<Integer> {
                 HttpEntity<String> petition = roiClient.getPetition(id);
                 if (petition.hasBody()) {
                     String petitionText = petition.getBody();
-                    log.info(petitionText);
+                    log.debug(petitionText);
                     PetitionDocumentDataModel documentDataModel = mapper.readValue(petitionText, PetitionDocumentDataModel.class);
                     petitionDocumentService.savePetition(documentDataModel.getData());
                     return 1;

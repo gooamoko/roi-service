@@ -11,7 +11,7 @@
 
 	<groupId>ru.gooamoko</groupId>
 	<artifactId>roi-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>roi-service</name>
 	<description>Service for store and find documents from roi.ru</description>
 

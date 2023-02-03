@@ -41,10 +41,6 @@ public class PetitionDocumentService {
         documentRepository.save(document);
     }
 
-    public void deleteById(String id) {
-        documentRepository.deleteById(id);
-    }
-
     public void clear() {
         documentRepository.deleteAll();
     }
@@ -104,6 +100,6 @@ public class PetitionDocumentService {
     }
 
     public void deleteOld(LocalDate date) {
-        // TODO: 01.02.2023 Реализовать удаление старых записей
+        documentRepository.deleteByUpdateDateBefore(date);
     }
 }

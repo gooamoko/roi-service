@@ -2,10 +2,10 @@ package ru.gooamoko.roiservice.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.gooamoko.roiservice.client.RoiClient;
+import ru.gooamoko.roiservice.config.properties.ProcessingConfig;
 import ru.gooamoko.roiservice.model.PetitionListDataModel;
 import ru.gooamoko.roiservice.model.PetitionModel;
 import ru.gooamoko.roiservice.service.process.AddOrUpdatePetitionProcessor;
@@ -29,12 +29,11 @@ public class PetitionsUpdateService {
 
     public PetitionsUpdateService(RoiClient roiClient,
                                   PetitionDocumentService petitionDocumentService,
-                                  @Value("${processing.threads.count}") Integer threadsCount,
-                                  @Value("${processing.old.days.count}") Integer daysCount) {
+                                  ProcessingConfig config) {
         this.roiClient = roiClient;
         this.petitionDocumentService = petitionDocumentService;
-        this.threadsCount = threadsCount == null ? DEFAULT_THREADS_COUNT : threadsCount;
-        this.daysCount = daysCount == null ? DEFAULT_DAYS_COUNT : daysCount;
+        this.threadsCount = config.getThreadsCount() == null ? DEFAULT_THREADS_COUNT : config.getThreadsCount();
+        this.daysCount = config.getOldDaysCount() == null ? DEFAULT_DAYS_COUNT : config.getOldDaysCount();
     }
 
     @Scheduled(cron = "0 0 */8 * * *")

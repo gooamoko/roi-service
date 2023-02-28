@@ -1,0 +1,17 @@
+[Unit]
+Description=roi-service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=roi
+Group=roi
+
+ExecStart=/usr/bin/java -Xms128m -Xmx2g -jar roi-service.jar
+Restart=on-failure
+RestartSec=10
+WorkingDirectory=/opt/roi
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

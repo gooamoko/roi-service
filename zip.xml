@@ -22,9 +22,5 @@
             <source> ${project.basedir}/src/main/resources/application.properties</source>
             <outputDirectory>/config/</outputDirectory>
         </file>
-<!--        <file>-->
-<!--            <source> ${project.basedir}/conf/logback.xml</source>-->
-<!--            <outputDirectory>/conf/</outputDirectory>-->
-<!--        </file>-->
     </files>
 </assembly>

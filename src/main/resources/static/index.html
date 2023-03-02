@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск инициатив</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<h1>Поиск инициатив на голосовании</h1>
+<form>
+    <div id="search">
+        <span>Текст для поиска</span>
+        <input type="text" id="q" size="150">
+        <button type=submit formaction='javascript:searchText();'>Искать</button>
+    </div>
+</form>
+<div id="result">
+
+</div>
+<script>
+        function searchText() {
+            var text = document.getElementById('q').value;
+            var url = '/petitions/find?q=' + text;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => printResult(data))
+                .catch(error => printError(error));
+        }
+
+        function printResult(jsonData) {
+            const resultElement = document.getElementById('result');
+            removeChildren(resultElement);
+            if (Array.isArray(jsonData)) {
+                if (jsonData.length == 0) {
+                    createTextChild(resultElement, "Ничего не найдено");
+                } else {
+                    const list = document.createElement('ul');
+                    jsonData.map(function(record) {
+                        let item = document.createElement('a');
+                        item.innerHTML = record.title;
+                        item.href = record.url;
+
+                        let li = document.createElement('li');
+                        li.appendChild(item);
+
+                        list.appendChild(li);
+                    });
+                    resultElement.appendChild(list);
+                }
+            } else {
+                createTextChild(resultElement, jsonData);
+            }
+        }
+
+        function printError(error) {
+            document.getElementById('result').innerHTML = "<span>Не удалось выполнить поиск</span>";
+        }
+
+        function removeChildren(resultElement) {
+            while (resultElement.firstChild) {
+                resultElement.removeChild(resultElement.lastChild);
+            }
+        }
+
+        function createTextChild(resultElement, text) {
+            let child = document.createElement('span');
+            child.innerText = text;
+            resultElement.appendChild(child);
+        }
+</script>
+</body>
+</html>
